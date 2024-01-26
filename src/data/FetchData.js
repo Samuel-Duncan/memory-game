@@ -40,8 +40,8 @@ class FetchData {
 
       // Prepare promises for fetching and processing data for each page concurrently
       for (let page = 1; page <= totalPages; page++) {
-        const nextPageUrl = baseUrl + page;
-        pagePromises.push(this.fetchAndProcessData(nextPageUrl, gameIds));
+        const pageUrl = baseUrl + page;
+        pagePromises.push(this.fetchAndProcessData(pageUrl, gameIds));
       }
 
       // Fetch and process data for all pages concurrently
@@ -54,6 +54,16 @@ class FetchData {
     } catch (error) {
       console.error(error);
       throw error;
+    }
+  }
+
+  static async getData() {
+    try {
+      const allData = await this.getAllData();
+      console.log(allData); // Do something with the fetched data
+      return allData;
+    } catch (error) {
+      console.error('Error fetching and processing data:', error);
     }
   }
 }
