@@ -68,4 +68,4 @@ class FetchData {
   }
 }
 
-export default FetchData;
+export { FetchData };

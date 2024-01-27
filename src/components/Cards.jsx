@@ -6,9 +6,9 @@ function Cards({ data }) {
     <div className="cards">
       {data.map((info) => (
         <Card key={info.id}>
-          <img className="image" src={info.imageUrl} alt={info.name} />
+          <img className="card-image" src={info.imageUrl} alt={info.name} />
           <br />
-          <strong>{info.name}</strong>
+          <strong className="card-title">{info.name}</strong>
         </Card>
       ))}
     </div>
