@@ -2,12 +2,11 @@
   text-align: center;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-}
-
-img {
-  max-width: 300px;
+  gap: 15px;
+  padding: 1em;
+  max-width: 1280px;
 }
 
 .card {
@@ -17,13 +16,18 @@ img {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.125);
   padding: 20px;
+  padding-bottom: 0px;
   filter: drop-shadow(0 30px 10px rgba(0, 0, 0, 0.125));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  max-width: 300px;
+  max-width: 350px;
+}
+
+.card:hover {
+  cursor: pointer;
 }
 
 .game-image {
