@@ -25,12 +25,15 @@ function App() {
 
   // Check if clicked cards has duplicates (game over)
   useEffect(() => {
-    if (hasDuplicates(clickedCards) && score > bestScore) {
-      setBestScore(score - 1);
+    if (hasDuplicates(clickedCards)) {
       setScore(0);
       setClickedCards([]);
       setCards(shuffleCards([...cards]));
       setIsGameOver(true);
+
+      if (score > bestScore) {
+        setBestScore(score - 1);
+      }
     }
   }, [clickedCards]);
 
@@ -48,9 +51,20 @@ function App() {
   };
 
   const handleCardClick = (cardId) => {
-    setScore(score + 1);
-    setClickedCards((prevClickedCards) => [...prevClickedCards, cardId]);
-    setCards(shuffleCards([...cards]));
+    const newScore = score + 1;
+    if (hasDuplicates([...clickedCards, cardId])) {
+      setScore(0);
+      setClickedCards([]);
+      setCards(shuffleCards([...cards]));
+      setIsGameOver(true);
+      if (newScore > bestScore) {
+        setBestScore(newScore - 1);
+      }
+    } else {
+      setScore(newScore);
+      setClickedCards((prevClickedCards) => [...prevClickedCards, cardId]);
+      setCards(shuffleCards([...cards]));
+    }
   };
 
   const handlePlayAgainClick = (e) => {
