@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { FetchData } from './data/FetchData';
 import { Header } from './components/Header';
 import { Cards } from './components/Cards';
+import { Modal } from './components/Modal';
 import './App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [clickedCards, setClickedCards] = useState([]);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   //Fetch data
   useEffect(() => {
@@ -28,6 +30,7 @@ function App() {
       setScore(0);
       setClickedCards([]);
       setCards(shuffleCards([...cards]));
+      setIsGameOver(true);
     }
   }, [clickedCards]);
 
@@ -50,10 +53,16 @@ function App() {
     setCards(shuffleCards([...cards]));
   };
 
+  const handlePlayAgainClick = (e) => {
+    e.stopPropagation();
+    setIsGameOver(false);
+  };
+
   return (
     <>
       <Header score={score} bestScore={bestScore} />
       <Cards data={cards} onClick={handleCardClick}></Cards>
+      <Modal onClose={handlePlayAgainClick} isHidden={isGameOver} />
     </>
   );
 }
