@@ -1,25 +1,42 @@
 import { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import { FetchData } from './data/FetchData';
 import { Header } from './components/Header';
 import { Cards } from './components/Cards';
 import './App.css';
 
 function App() {
-  const [cardData, setCardData] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [clickedCards, setClickedCards] = useState([]);
 
+  //Fetch data
   useEffect(() => {
     FetchData.getData()
       .then((result) => {
-        setCardData(result);
+        setCards(result);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
 
-  const shuffleData = (array) => {
+  // Check if clicked cards has duplicates (game over)
+  const hasDuplicates = (array) => {
+    return array.length !== new Set(array).size;
+  };
+
+  useEffect(() => {
+    if (hasDuplicates(clickedCards) && score > bestScore) {
+      setBestScore(score - 1);
+      setScore(0);
+      setClickedCards([]);
+      setCards(shuffleCards([...cards]));
+    }
+  }, [clickedCards]);
+
+  //Shuffle cards
+  const shuffleCards = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -27,15 +44,16 @@ function App() {
     return array;
   };
 
-  const cardOnClick = () => {
-    const nextCardData = [...cardData];
-    setCardData(shuffleData(nextCardData));
+  const handleCardClick = (cardId) => {
+    setScore(score + 1);
+    setClickedCards((prevClickedCards) => [...prevClickedCards, cardId]);
+    setCards(shuffleCards([...cards]));
   };
 
   return (
     <>
-      <Header />
-      <Cards data={cardData} onClick={cardOnClick}></Cards>
+      <Header score={score} bestScore={bestScore} />
+      <Cards data={cards} onClick={handleCardClick}></Cards>
     </>
   );
 }
