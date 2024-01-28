@@ -19,10 +19,23 @@ function App() {
       });
   }, []);
 
+  const shuffleData = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  const cardOnClick = () => {
+    const nextCardData = [...cardData];
+    setCardData(shuffleData(nextCardData));
+  };
+
   return (
     <>
       <Header />
-      <Cards data={cardData}></Cards>
+      <Cards data={cardData} onClick={cardOnClick}></Cards>
     </>
   );
 }
