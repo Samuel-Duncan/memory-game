@@ -16,3 +16,14 @@
   display: flex;
   gap: 10px;
 }
+
+@media (max-width: 768px) {
+  .header {
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+  }
+
+  .header-left {
+    font-size: 0.75rem;
+  }
+}

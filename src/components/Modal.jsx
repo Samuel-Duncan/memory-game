@@ -1,10 +1,10 @@
 import '../styles/Modal.css';
 
-const Modal = ({ onClose, isHidden }) => {
+const Modal = ({ onClose, isGameWon }) => {
   return (
-    <div className={isHidden ? 'modal-backdrop' : 'modal-backdrop hidden'}>
+    <div className={'modal-backdrop'}>
       <div className="modal">
-        <h1>Game over</h1>
+        <h1>{isGameWon ? 'You won!' : 'Game over'}</h1>
         <button onClick={onClose}>Play again</button>
       </div>
     </div>

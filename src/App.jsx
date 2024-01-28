@@ -11,6 +11,7 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
   const [clickedCards, setClickedCards] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isGameWon, setIsGameWon] = useState(false);
 
   //Fetch data
   useEffect(() => {
@@ -25,20 +26,28 @@ function App() {
 
   // Check if clicked cards has duplicates (game over)
   useEffect(() => {
-    if (hasDuplicates(clickedCards)) {
-      setScore(0);
-      setClickedCards([]);
-      setCards(shuffleCards([...cards]));
-      setIsGameOver(true);
-
-      if (score > bestScore) {
-        setBestScore(score - 1);
-      }
+    if (hasDuplicates(clickedCards) || clickedCards.length === 12) {
+      handleGameOver();
     }
   }, [clickedCards]);
 
   const hasDuplicates = (array) => {
     return array.length !== new Set(array).size;
+  };
+
+  // Handle Game Over
+  const handleGameOver = () => {
+    setScore(0);
+    setClickedCards([]);
+    setIsGameOver(true);
+
+    if (score === 12) {
+      setIsGameWon(true);
+    }
+
+    if (score > bestScore) {
+      setBestScore(score);
+    }
   };
 
   //Shuffle cards
@@ -51,32 +60,27 @@ function App() {
   };
 
   const handleCardClick = (cardId) => {
-    const newScore = score + 1;
-    if (hasDuplicates([...clickedCards, cardId])) {
-      setScore(0);
-      setClickedCards([]);
-      setCards(shuffleCards([...cards]));
-      setIsGameOver(true);
-      if (newScore > bestScore) {
-        setBestScore(newScore - 1);
-      }
+    if (hasDuplicates([...clickedCards, cardId]) || score === 12) {
+      handleGameOver();
     } else {
-      setScore(newScore);
+      setScore(score + 1);
       setClickedCards((prevClickedCards) => [...prevClickedCards, cardId]);
       setCards(shuffleCards([...cards]));
     }
   };
 
-  const handlePlayAgainClick = (e) => {
-    e.stopPropagation();
+  const handlePlayAgainClick = () => {
     setIsGameOver(false);
+    setIsGameWon(false);
   };
 
   return (
     <>
       <Header score={score} bestScore={bestScore} />
       <Cards data={cards} onClick={handleCardClick}></Cards>
-      <Modal onClose={handlePlayAgainClick} isHidden={isGameOver} />
+      {(isGameOver || isGameWon) && (
+        <Modal onClose={handlePlayAgainClick} isGameWon={isGameWon} />
+      )}
     </>
   );
 }
