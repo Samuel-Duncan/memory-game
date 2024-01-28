@@ -22,10 +22,6 @@ function App() {
   }, []);
 
   // Check if clicked cards has duplicates (game over)
-  const hasDuplicates = (array) => {
-    return array.length !== new Set(array).size;
-  };
-
   useEffect(() => {
     if (hasDuplicates(clickedCards) && score > bestScore) {
       setBestScore(score - 1);
@@ -34,6 +30,10 @@ function App() {
       setCards(shuffleCards([...cards]));
     }
   }, [clickedCards]);
+
+  const hasDuplicates = (array) => {
+    return array.length !== new Set(array).size;
+  };
 
   //Shuffle cards
   const shuffleCards = (array) => {
