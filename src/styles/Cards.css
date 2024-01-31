@@ -29,7 +29,7 @@
 
 .card:hover {
   cursor: pointer;
-  box-shadow: 10px 10px 0px 0px rgba(17, 25, 40, 0.25);
+  box-shadow: 10px 10px 0px 0px rgba(17, 25, 40, 0.5);
 }
 
 .game-image {
