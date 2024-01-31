@@ -24,10 +24,12 @@
   justify-content: center;
   text-align: center;
   max-width: 350px;
+  transition: box-shadow 0.3s ease;
 }
 
 .card:hover {
   cursor: pointer;
+  box-shadow: 10px 10px 0px 0px rgba(17, 25, 40, 0.25);
 }
 
 .game-image {

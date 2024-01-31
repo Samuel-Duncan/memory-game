@@ -60,7 +60,6 @@ class FetchData {
   static async getData() {
     try {
       const allData = await this.getAllData();
-      console.log(allData); // Do something with the fetched data
       return allData;
     } catch (error) {
       console.error('Error fetching and processing data:', error);
